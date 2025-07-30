@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Haven - Premium Plants & Gardening Supplies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #05c46b, #0be881);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5-px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .cart-btn:hover {
+            background-color: #0eb360 !important;
+        }
+
+        /* Custom modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold playfair text-green-600">Green Haven</span>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="#home" class="border-green-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium nav-link" data-page="home">Home</a>
+                        <a href="#shop" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium nav-link" data-page="shop">Shop</a>
+                        <a href="#about" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium nav-link" data-page="about">About</a>
+                        <a href="#blog" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium nav-link" data-page="blog">Blog</a>
+                        <a href="#contact" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium nav-link" data-page="contact">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <button type="button" class="p-1 text-gray-400 hover:text-gray-500">
+                            <span class="sr-only">Search</span>
+                            <i class="fa-solid fa-magnifying-glass h-6 w-6"></i>
+                        </button>
+                        <button type="button" class="ml-4 p-1 text-gray-400 hover:text-gray-500">
+                            <span class="sr-only">Account</span>
+                            <i class="fa-solid fa-user h-6 w-6"></i>
+                        </button>
+                        <button type="button" class="ml-4 p-1 text-gray-400 hover:text-gray-500 relative">
+                            <span class="sr-only">Cart</span>
+                            <i class="fa-solid fa-cart-shopping h-6 w-6"></i>
+                            <span class="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center cart-counter">3</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500 mobile-menu-button">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fa-solid fa-bars block h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="sm:hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="#home" class="bg-green-50 border-green-500 text-green-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium nav-link" data-page="home">Home</a>
+                <a href="#shop" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium nav-link" data-page="shop">Shop</a>
+                <a href="#about" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium nav-link" data-page="about">About</a>
+                <a href="#blog" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium nav-link" data-page="blog">Blog</a>
+                <a href="#contact" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium nav-link" data-page="contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area - This will dynamically load content -->
+    <div id="content-area">
+        <!-- Home Section -->
+        <section id="home-page" class="page-section">
+            <!-- Hero Section -->
+            <div class="relative bg-white overflow-hidden">
+                <div class="max-w-7xl mx-auto">
+                    <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                        <div class="pt-10 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
+                            <div class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                                <div class="sm:text-center lg:text-left">
+                                    <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                                        <span class="block">Bring Nature</span>
+                                        <span class="block gradient-text">Into Your Home</span>
+                                    </h1>
+                                    <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                        Discover our premium collection of indoor and outdoor plants to transform your space into a green oasis.
+                                    </p>
+                                    <div class="mt-8 sm:mt-12">
+                                        <div class="rounded-md shadow">
+                                            <a href="#shop" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-green-400 to-green-600 md:py-4 md:text-lg md:px-10 nav-link" data-page="shop">
+                                                Shop Now
+                                            </a>
+                                        </div>
+                                        <div class="mt-3 sm:mt-0 sm:ml-3">
+                                            <a href="#about" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-green-600 bg-green-50 hover:bg-green-100 md:py-4 md:text-lg md:px-10 nav-link" data-page="about">
+                                                Learn More
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/54595e63-f34d-4ba5-b948-86342f0ba4e4.png" alt="Stylish living room with large indoor plants and natural light filtering through windows">
+                </div>
+            </div>
+
+            <!-- Featured Plants -->
+            <div class="py-12 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="lg:text-center">
+                        <h2 class="text-base text-green-600 font-semibold tracking-wide uppercase">Featured Plants</h2>
+                        <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl playfair">
+                            Our Bestselling Plants
+                        </p>
+                        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                            Carefully curated selection of premium plants for every space and style.
+                        </p>
+                    </div>
+
+                    <div class="mt-10">
+                        <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                            <!-- Product 1 -->
+                            <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                                <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5596b429-12b8-4f2e-ab78-3be6e80f49bc.png" alt="Large fiddle leaf fig plant in a white ceramic pot with decorative rattan basket" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                                </div>
+                                <div class="mt-4 flex justify-between">
+                                    <div>
+                                        <h3 class="text-sm text-gray-700">
+                                            <a href="#" class="font-medium">
+                                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                                Fiddle Leaf Fig
+                                            </a>
+                                        </h3>
+                                        <p class="mt-1 text-sm text-gray-500">Indoor Tree</p>
+                                    </div>
+                                    <p class="text-sm font-medium text-gray-900">$89.99</p>
+                                </div>
+                                <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    Add to cart
+                                </button>
+                            </div>
+
+                            <!-- Product 2 -->
+                            <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                                <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bc687a63-dfc5-466e-8828-876364c9de56.png" alt="Collection of three different succulent plants in modern geometric terrariums" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                                </div>
+                                <div class="mt-4 flex justify-between">
+                                    <div>
+                                        <h3 class="text-sm text-gray-700">
+                                            <a href="#" class="font-medium">
+                                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                                Succulent Set
+                                            </a>
+                                        </h3>
+                                        <p class="mt-1 text-sm text-gray-500">Low Maintenance</p>
+                                    </div>
+                                    <p class="text-sm font-medium text-gray-900">$34.99</p>
+                                </div>
+                                <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    Add to cart
+                                </button>
+                            </div>
+
+                            <!-- Product 3 -->
+                            <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                                <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1ae642c9-c71a-4237-ad76-181e6f0ffedd.png" alt="Lush monstera deliciosa plant with large split leaves in a standing planter" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                                </div>
+                                <div class="mt-4 flex justify-between">
+                                    <div>
+                                        <h3 class="text-sm text-gray-700">
+                                            <a href="#" class="font-medium">
+                                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                                Monstera Deliciosa
+                                            </a>
+                                        </h3>
+                                        <p class="mt-1 text-sm text-gray-500">Statement Plant</p>
+                                    </div>
+                                    <p class="text-sm font-medium text-gray-900">$59.99</p>
+                                </div>
+                                <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    Add to cart
+                                </button>
+                            </div>
+
+                            <!-- Product 4 -->
+                            <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                                <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5dc180c9-bcc1-4d27-8135-89d173b9af33.png" alt="Fresh herbs growing in small terracotta pots on a sunny windowsill" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                                </div>
+                                <div class="mt-4 flex justify-between">
+                                    <div>
+                                        <h3 class="text-sm text-gray-700">
+                                            <a href="#" class="font-medium">
+                                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                                Herb Garden Kit
+                                            </a>
+                                        </h3>
+                                        <p class="mt-1 text-sm text-gray-500">Grow Your Own</p>
+                                    </div>
+                                    <p class="text-sm font-medium text-gray-900">$45.99</p>
+                                </div>
+                                <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    Add to cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 text-center">
+                        <a href="#shop" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 nav-link" data-page="shop">
+                            View All Plants
+                            <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Section -->
+            <div class="bg-gray-50">
+                <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-center text-3xl font-extrabold tracking-tight text-gray-900 playfair sm:text-4xl">
+                        Shop By Category
+                    </h2>
+
+                    <div class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 lg:grid-cols-4 sm:gap-x-6">
+                        <div class="group relative bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <div class="aspect-w-3 aspect-h-2 bg-gray-200 overflow-hidden">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d5abbf6b-b6ae-4232-8796-51a000ea4c94.png" alt="Collection of various indoor potted plants in a bright living room setting" class="w-full h-full object-cover object-center">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    <a href="#shop" class="nav-link" data-page="shop">
+                                        Indoor Plants
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Add life to your home</p>
+                            </div>
+                        </div>
+
+                        <div class="group relative bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <div class="aspect-w-3 aspect-h-2 bg-gray-200 overflow-hidden">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0b9a2f35-9571-4a86-844a-b4d7d64bdf7b.png" alt="Beautiful garden with colorful flowering plants and shrubs under sunlight" class="w-full h-full object-cover object-center">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    <a href="#shop" class="nav-link" data-page="shop">
+                                        Outdoor Plants
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Transform your garden</p>
+                            </div>
+                        </div>
+
+                        <div class="group relative bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <div class="aspect-w-3 aspect-h-2 bg-gray-200 overflow-hidden">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f8da7691-d762-436d-b2c7-e2a1919d76fe.png" alt="Assortment of cacti and succulents arranged on a wooden table with decorative rocks" class="w-full h-full object-cover object-center">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    <a href="#shop" class="nav-link" data-page="shop">
+                                        Cacti & Succulents
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Low maintenance beauty</p>
+                            </div>
+                        </div>
+
+                        <div class="group relative bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <div class="aspect-w-3 aspect-h-2 bg-gray-200 overflow-hidden">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bae9e071-42e8-4e7b-bcf0-e7b63eab76dd.png" alt="Variety of gardening tools arranged neatly on a wooden surface with fresh soil" class="w-full h-full object-cover object-center">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    <a href="#shop" class="nav-link" data-page="shop">
+                                        Gardening Supplies
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Everything you need</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="bg-white py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+                <div class="max-w-7xl mx-auto">
+                    <div class="lg:text-center">
+                        <h2 class="text-base text-green-600 font-semibold tracking-wide uppercase">Testimonials</h2>
+                        <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl playfair">
+                            What Our Customers Say
+                        </p>
+                    </div>
+                    <div class="mt-10">
+                        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <div class="flex items-start">
+                                    <img class="h-12 w-12 rounded-full object-cover" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d19-a14a-81bcbda05afe.png" alt="Smiling middle-aged woman with short brown hair standing in a sunny garden">
+                                    <div class="ml-4">
+                                        <p class="text-gray-500 italic">"My new Monstera arrived in perfect condition and has already grown two new leaves! The customer service was exceptional when I had questions about care."</p>
+                                        <div class="mt-4">
+                                            <p class="text-base font-medium text-gray-900">Sarah Johnson</p>
+                                            <p class="text-sm text-gray-500">Verified Buyer</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <div class="flex items-start">
+                                    <img class="h-12 w-12 rounded-full object-cover" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d19-a14a-81bcbda05afe.png" alt="Young man wearing glasses smiling with a terrace full of plants in the background">
+                                    <div class="ml-4">
+                                        <p class="text-gray-500 italic">"I've ordered plants from many online stores, but Green Haven's packaging is by far the best. All my succulents arrived undamaged despite the summer heat."</p>
+                                        <div class="mt-4">
+                                            <p class="text-base font-medium text-gray-900">Michael Chen</p>
+                                            <p class="text-sm text-gray-500">Verified Buyer</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <div class="flex items-start">
+                                    <img class="h-12 w-12 rounded-full object-cover" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d19-a14a-81bcbda05afe.png" alt="Elderly couple holding plants and smiling in their well-maintained backyard">
+                                    <div class="ml-4">
+                                        <p class="text-gray-500 italic">"The plant care guide that came with our order was so detailed. We've finally managed to keep orchids alive for more than a few months thanks to their advice!"</p>
+                                        <div class="mt-4">
+                                            <p class="text-base font-medium text-gray-900">Robert & Martha Wilkins</p>
+                                            <p class="text-sm text-gray-500">Verified Buyers</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="bg-green-700">
+                <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center">
+                    <div class="lg:w-0 lg:flex-1">
+                        <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl playfair">
+                            Sign up for our newsletter
+                        </h2>
+                        <p class="mt-3 max-w-3xl text-lg leading-6 text-green-100">
+                            Get seasonal plant care tips, exclusive offers, and gardening inspiration delivered to your inbox.
+                        </p>
+                    </div>
+                    <div class="mt-8 lg:mt-0 lg:ml-8">
+                        <form class="sm:flex">
+                            <label for="email-address" class="sr-only">Email address</label>
+                            <input id="email-address" name="email" type="email" autocomplete="email" required class="w-full px-5 py-3 border border-transparent placeholder-gray-500 focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-700 focus:ring-white focus:border-white sm:max-w-xs rounded-md" placeholder="Enter your email">
+                            <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+                                <button type="submit" class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-green-600 bg-white hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-700 focus:ring-white">
+                                    Subscribe
+                                </button>
+                            </div>
+                        </form>
+                        <p class="mt-3 text-sm text-green-200">
+                            We care about your data. Read our
+                            <a href="#" class="text-white font-medium underline">
+                                Privacy Policy
+                            </a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section id="shop-page" class="page-section hidden py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-center text-3xl font-extrabold tracking-tight text-gray-900 playfair sm:text-4xl">
+                    Our Full Plant Collection
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto text-center">
+                    Explore our extensive range of plants, from vibrant indoor foliage to robust outdoor varieties.
+                </p>
+
+                <div class="mt-10 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                    <!-- Product 1: Fiddle Leaf Fig -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5596b429-12b8-4f2e-ab78-3be6e80f49bc.png" alt="Large fiddle leaf fig plant in a white ceramic pot with decorative rattan basket" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Fiddle Leaf Fig
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">A popular indoor tree with large, violin-shaped leaves. Perfect for adding a dramatic touch to any room.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$89.99</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 2: Succulent Set -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bc687a63-dfc5-466e-8828-876364c9de56.png" alt="Collection of three different succulent plants in modern geometric terrariums" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Succulent Set
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">A delightful assortment of low-maintenance succulents, ideal for beginners and small spaces. Comes in various shapes and colors.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$34.99</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 3: Monstera Deliciosa -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1ae642c9-c71a-4237-ad76-181e6f0ffedd.png" alt="Lush monstera deliciosa plant with large split leaves in a standing planter" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Monstera Deliciosa
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Known for its iconic split leaves, the Monstera is a vibrant statement plant that adds a tropical feel to any indoor setting.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$59.99</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 4: Herb Garden Kit -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5dc180c9-bcc1-4d27-8135-89d173b9af33.png" alt="Fresh herbs growing in small terracotta pots on a sunny windowsill" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Herb Garden Kit
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Grow your own fresh herbs right in your kitchen! Includes seeds for basil, mint, and cilantro with pots and soil.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$45.99</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 5: Peace Lily -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/05c46b/ffffff?text=Peace+Lily" alt="Peace Lily plant with white flowers" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Peace Lily
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">An elegant plant known for its beautiful white blooms and air-purifying qualities. Easy to care for and perfect for any home.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$29.99</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 6: Snake Plant -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/0be881/ffffff?text=Snake+Plant" alt="Tall snake plant in a modern pot" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Snake Plant
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Extremely hardy and stylish, the Snake Plant is a low-maintenance choice that thrives in various conditions and purifies air.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$39.99</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 7: ZZ Plant -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/05c46b/ffffff?text=ZZ+Plant" alt="ZZ Plant with glossy dark green leaves" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        ZZ Plant
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">The ZZ Plant is incredibly resilient and tolerant of low light and infrequent watering, making it perfect for busy plant parents.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$32.50</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 8: Orchid -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/0be881/ffffff?text=Orchid" alt="Beautiful blooming orchid plant" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Orchid
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Add a touch of exotic elegance with our stunning orchids. Known for their long-lasting and intricate blooms, they make a perfect gift.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$49.00</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 9: Pothos -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/05c46b/ffffff?text=Pothos" alt="Pothos plant with trailing vines" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Pothos
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">A versatile and easy-to-grow trailing plant, perfect for hanging baskets or shelves. Comes in various variegated forms.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$24.00</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 10: Aloe Vera -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/0be881/ffffff?text=Aloe+Vera" alt="Aloe Vera plant" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Aloe Vera
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">A succulent plant known for its medicinal properties and ease of care. A must-have for any home.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$18.50</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 11: Spider Plant -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/05c46b/ffffff?text=Spider+Plant" alt="Spider plant with baby plantlets" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Spider Plant
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">An easy-to-grow classic, known for its air-purifying abilities and unique "spiderettes" that trail from the mother plant.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$22.00</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+
+                    <!-- Product 12: Rubber Plant -->
+                    <div class="group relative product-card transition-transform duration-300 ease-in-out">
+                        <div class="w-full min-h-80 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/600x400/0be881/ffffff?text=Rubber+Plant" alt="Rubber plant with dark glossy leaves" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#" class="font-medium">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Rubber Plant
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">With its large, glossy leaves, the Rubber Plant is a striking addition to any indoor space, known for its resilience and air-purifying properties.</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$48.00</p>
+                        </div>
+                        <button class="cart-btn mt-2 w-full bg-green-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add to cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about-page" class="page-section hidden py-12 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-center text-3xl font-extrabold tracking-tight text-gray-900 playfair sm:text-4xl">
+                    About Green Haven
+                </h2>
+                <div class="mt-8 text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
+                    <p class="mb-4">
+                        Welcome to Green Haven, your ultimate destination for bringing the beauty and tranquility of nature into your home and garden. Founded in 2012, our mission has always been to provide high-quality plants and expert guidance to plant enthusiasts of all levels.
+                    </p>
+                    <p class="mb-4">
+                        We believe that plants do more than just decorate a space; they enhance well-being, purify air, and connect us to the natural world. That's why we meticulously source our plants from trusted growers, ensuring each one is healthy, vibrant, and ready to thrive in its new environment.
+                    </p>
+                    <p class="mb-4">
+                        Our passionate team of horticulturists and plant lovers is dedicated to helping you succeed. Whether you're a seasoned gardener or just starting your plant journey, we offer a wide selection of indoor and outdoor plants, along with all the essential supplies and expert advice you need.
+                    </p>
+                    <p>
+                        Thank you for choosing Green Haven. Let's grow something beautiful together!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog-page" class="page-section hidden py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-center text-3xl font-extrabold tracking-tight text-gray-900 playfair sm:text-4xl">
+                    Our Latest Blog Posts
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto text-center">
+                    Discover tips, guides, and inspiration for your plant care journey.
+                </p>
+
+                <div class="mt-10 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                    <!-- Blog Post 1 -->
+                    <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                        <div class="flex-shrink-0">
+                            <img class="h-48 w-full object-cover" src="https://placehold.co/600x300/05c46b/ffffff?text=Blog+Post+1" alt="Person watering a houseplant">
+                        </div>
+                        <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-green-600">
+                                    <a href="#" class="hover:underline">Plant Care</a>
+                                </p>
+                                <a href="#" class="block mt-2">
+                                    <p class="text-xl font-semibold text-gray-900">
+                                        5 Essential Tips for Happy Indoor Plants
+                                    </p>
+                                    <p class="mt-3 text-base text-gray-500">
+                                        Learn the basics of keeping your indoor plants thriving with these simple yet effective tips.
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="mt-6 flex items-center">
+                                <div class="flex-shrink-0">
+                                    <span class="sr-only">Author Name</span>
+                                    <img class="h-10 w-10 rounded-full" src="https://placehold.co/40x40/cccccc/000000?text=A" alt="Author Avatar">
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">
+                                        <a href="#" class="hover:underline">Jane Doe</a>
+                                    </p>
+                                    <div class="flex space-x-1 text-sm text-gray-500">
+                                        <time datetime="2023-03-16">Mar 16, 2023</time>
+                                        <span aria-hidden="true">&middot;</span>
+                                        <span>6 min read</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blog Post 2 -->
+                    <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                        <div class="flex-shrink-0">
+                            <img class="h-48 w-full object-cover" src="https://placehold.co/600x300/0be881/ffffff?text=Blog+Post+2" alt="Garden with various outdoor plants">
+                        </div>
+                        <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-green-600">
+                                    <a href="#" class="hover:underline">Gardening</a>
+                                </p>
+                                <a href="#" class="block mt-2">
+                                    <p class="text-xl font-semibold text-gray-900">
+                                        Creating Your Dream Outdoor Oasis
+                                    </p>
+                                    <p class="mt-3 text-base text-gray-500">
+                                        Transform your backyard into a beautiful and relaxing sanctuary with our guide.
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="mt-6 flex items-center">
+                                <div class="flex-shrink-0">
+                                    <span class="sr-only">Author Name</span>
+                                    <img class="h-10 w-10 rounded-full" src="https://placehold.co/40x40/cccccc/000000?text=B" alt="Author Avatar">
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">
+                                        <a href="#" class="hover:underline">John Smith</a>
+                                    </p>
+                                    <div class="flex space-x-1 text-sm text-gray-500">
+                                        <time datetime="2023-03-10">Mar 10, 2023</time>
+                                        <span aria-hidden="true">&middot;</span>
+                                        <span>8 min read</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blog Post 3 -->
+                    <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                        <div class="flex-shrink-0">
+                            <img class="h-48 w-full object-cover" src="https://placehold.co/600x300/05c46b/ffffff?text=Blog+Post+3" alt="Close-up of a succulent plant">
+                        </div>
+                        <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-green-600">
+                                    <a href="#" class="hover:underline">Succulents</a>
+                                </p>
+                                <a href="#" class="block mt-2">
+                                    <p class="text-xl font-semibold text-gray-900">
+                                        The Beginner's Guide to Succulent Care
+                                    </p>
+                                    <p class="mt-3 text-base text-gray-500">
+                                        Everything you need to know to keep your succulents happy and healthy.
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="mt-6 flex items-center">
+                                <div class="flex-shrink-0">
+                                    <span class="sr-only">Author Name</span>
+                                    <img class="h-10 w-10 rounded-full" src="https://placehold.co/40x40/cccccc/000000?text=C" alt="Author Avatar">
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">
+                                        <a href="#" class="hover:underline">Emily White</a>
+                                    </p>
+                                    <div class="flex space-x-1 text-sm text-gray-500">
+                                        <time datetime="2023-03-05">Mar 5, 2023</time>
+                                        <span aria-hidden="true">&middot;</span>
+                                        <span>5 min read</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-page" class="page-section hidden py-12 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-center text-3xl font-extrabold tracking-tight text-gray-900 playfair sm:text-4xl">
+                    Contact Us
+                </h2>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto text-center">
+                    Have a question or need assistance? Reach out to us!
+                </p>
+
+                <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Contact Information -->
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-4">Get in Touch</h3>
+                        <p class="text-gray-700 mb-4">
+                            We're here to help with any inquiries about our plants, orders, or general gardening advice.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-envelope text-green-600 text-xl"></i>
+                                <p class="ml-3 text-gray-700">info@greenhaven.com</p>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-phone text-green-600 text-xl"></i>
+                                <p class="ml-3 text-gray-700">+1 (555) 123-4567</p>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-location-dot text-green-600 text-xl mt-1"></i>
+                                <p class="ml-3 text-gray-700">
+                                    123 Plant Paradise Rd, <br>
+                                    Greenville, GA 30303, USA
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <h4 class="text-lg font-semibold text-gray-900 mb-3">Follow Us</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="text-gray-600 hover:text-green-600"><i class="fab fa-facebook-f text-2xl"></i></a>
+                                <a href="#" class="text-gray-600 hover:text-green-600"><i class="fab fa-instagram text-2xl"></i></a>
+                                <a href="#" class="text-gray-600 hover:text-green-600"><i class="fab fa-twitter text-2xl"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Form -->
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-4">Send Us Your Feedback</h3>
+                        <form id="feedbackForm" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <input type="text" name="name" id="name" autocomplete="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" name="email" id="email" autocomplete="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" required>
+                            </div>
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                                <input type="text" name="subject" id="subject" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                                <textarea id="message" name="message" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" required></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    Send Feedback
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+                <div class="col-span-2">
+                    <h3 class="text-2xl font-bold text-white playfair">Green Haven</h3>
+                    <p class="mt-2 text-gray-300">
+                        Bringing the beauty of nature into your home since 2012.
+                    </p>
+                    <div class="mt-6 flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <span class="sr-only">Facebook</span>
+                            <i class="fab fa-facebook-f h-6 w-6"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <span class="sr-only">Instagram</span>
+                            <i class="fab fa-instagram h-6 w-6"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <span class="sr-only">Twitter</span>
+                            <i class="fab fa-twitter h-6 w-6"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <span class="sr-only">Pinterest</span>
+                            <i class="fab fa-pinterest h-6 w-6"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">
+                        Shop
+                    </h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#shop" class="text-base text-gray-400 hover:text-white nav-link" data-page="shop">
+                                All Plants
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#shop" class="text-base text-gray-400 hover:text-white nav-link" data-page="shop">
+                                New Arrivals
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#shop" class="text-base text-gray-400 hover:text-white nav-link" data-page="shop">
+                                Gift Cards
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#shop" class="text-base text-gray-400 hover:text-white nav-link" data-page="shop">
+                                Sale
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">
+                        Support
+                    </h3>
+                    <ul class="mt-4 space-y-4">
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white">
+                                Plant Care
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white">
+                                Shipping Info
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-base text-gray-400 hover:text-white">
+                                Returns & Policy
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#contact" class="text-base text-gray-400 hover:text-white nav-link" data-page="contact">
+                                Contact Us
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8">
+                <p class="text-base text-gray-400 xl:text-center">
+                    © 2023 Green Haven Nursery. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Modal for Alerts -->
+    <div id="customAlertModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p id="alertMessage" class="text-lg font-medium text-gray-900"></p>
+            <button id="alertOkButton" class="mt-4 px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to show custom alert
+        function showAlert(message) {
+            const modal = document.getElementById('customAlertModal');
+            const alertMessage = document.getElementById('alertMessage');
+            alertMessage.textContent = message;
+            modal.style.display = 'flex'; // Use flex to center content
+
+            const closeButton = modal.querySelector('.close-button');
+            const okButton = document.getElementById('alertOkButton');
+
+            const hideModal = () => {
+                modal.style.display = 'none';
+                closeButton.removeEventListener('click', hideModal);
+                okButton.removeEventListener('click', hideModal);
+            };
+
+            closeButton.addEventListener('click', hideModal);
+            okButton.addEventListener('click', hideModal);
+
+            // Close when clicking outside the modal content
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    hideModal();
+                }
+            });
+        }
+
+        // Simple cart functionality
+        document.querySelectorAll('.cart-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const productName = this.closest('.product-card').querySelector('h3 a').textContent.trim();
+                const productPrice = this.closest('.product-card').querySelector('p.text-gray-900').textContent;
+                
+                showAlert(`Added ${productName} (${productPrice}) to your cart`);
+                
+                // Update cart counter
+                const cartCounter = document.querySelector('.cart-counter');
+                let count = parseInt(cartCounter.textContent);
+                cartCounter.textContent = count + 1;
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Page navigation logic
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageSections = document.querySelectorAll('.page-section');
+
+        function showPage(pageId) {
+            pageSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(`${pageId}-page`).classList.remove('hidden');
+
+            // Update active class in nav
+            navLinks.forEach(link => {
+                if (link.dataset.page === pageId) {
+                    link.classList.add('border-green-500', 'text-gray-900');
+                    link.classList.remove('border-transparent', 'text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700');
+                } else {
+                    link.classList.remove('border-green-500', 'text-gray-900');
+                    link.classList.add('border-transparent', 'text-gray-500', 'hover:border-gray-300', 'hover:text-gray-700');
+                }
+                // For mobile menu links
+                if (link.closest('#mobile-menu')) {
+                    if (link.dataset.page === pageId) {
+                        link.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+                        link.classList.remove('border-transparent', 'text-gray-500', 'hover:bg-gray-50', 'hover:border-gray-300', 'hover:text-gray-700');
+                    } else {
+                        link.classList.remove('bg-green-50', 'border-green-500', 'text-green-700');
+                        link.classList.add('border-transparent', 'text-gray-500', 'hover:bg-gray-50', 'hover:border-gray-300', 'hover:text-gray-700');
+                    }
+                }
+            });
+
+            // Hide mobile menu after selection
+            mobileMenu.classList.add('hidden');
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                showPage(page);
+                // Update URL hash without reloading
+                history.pushState(null, '', `#${page}`);
+            });
+        });
+
+        // Handle initial page load based on URL hash
+        window.addEventListener('DOMContentLoaded', () => {
+            const initialPage = window.location.hash.substring(1) || 'home';
+            showPage(initialPage);
+        });
+
+        // Handle form submission for feedback form
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // In a real application, you would send this data to a server
+            console.log('Feedback Submitted:', { name, email, subject, message });
+
+            showAlert('Thank you for your feedback! We will get back to you soon.');
+
+            // Optionally, clear the form
+            this.reset();
+        });
+    </script>
+</body>
+</html>
